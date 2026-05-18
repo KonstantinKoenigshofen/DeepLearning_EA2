@@ -164,15 +164,9 @@ function createModel() {
 
     );
 
-    // Input Layer
+    // 1. Hidden Layer mit Input-Layer (InputShape)
     model.add(tf.layers.dense({
         inputShape: [1], 
-        units: 100, 
-        activation: 'relu'
-    }));
-
-    // 1. Hidden Layer
-    model.add(tf.layers.dense({
         units: 100, 
         activation: 'relu'
     }));
