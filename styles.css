@@ -43,30 +43,6 @@ h1 {
   line-height: 1.5;
 }
 
-.image-column, .chart-column {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-column img {
-  width: 300px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-img {
-  width: 100%;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  transition: transform 0.2s ease;
-}
-
-img:hover {
-  transform: scale(1.03);
-}
-
 a {
   color: #3498db;
   text-decoration: none;
@@ -85,55 +61,26 @@ a:hover {
   border: 4px solid #e74c3c;
 }
 
-/* Upload Bereich */
-input, button {
-  margin-top: 10px;
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Zwei gleich große Spalten */
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto; /* Zentriert den Container */
 }
 
-button {
-  padding: 10px 20px;
-  border: none;
-  background-color: #3498db;
-  color: white;
+.chart-cell {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #2980b9;
-}
-
-/* Karten-Look */
-.section {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-
-#dropzone {
-  height: 200px;
-  border: 2px dashed #aaa;
-  padding: 30px;
+  padding: 15px;
   text-align: center;
-  cursor: pointer;
-  border-radius: 10px;
-  background-color: #fafafa;
 }
 
-#dropzone.dragover {
-  border-color: #3498db;
-  background-color: #ecf5ff;
-}
-
-#preview {
-  max-width: 300px;
-  margin-top: 20px;
-  display: block;
-  margin: 0 auto;
-}
-
-#upload {
-  display: none;
+.loss-text {
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
 }
