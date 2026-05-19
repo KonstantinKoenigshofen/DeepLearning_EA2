@@ -39,33 +39,45 @@ async function main() {
     //
 
     // Modell erstellen
+    /*
     const cleanModel = createModel();
     tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, cleanModel);
 
     // Model trainieren
     await trainModel(cleanModel, trainData, testData, 150, 'A2: Erstes Modell');
+    */
+    console.log("--- A2: Clean Model ---");
+    const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 150);
 
     //
     // A3: Zweites Modell mit verrauschten Daten trainieren (Best-Fit)
     //
 
     //Modell erstellen
+    /*
     const bestModel = createModel();
     tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, bestModel);
 
     // Modell trainieren
     await trainModel(bestModel, noisyTrainData, noisyTestData, 100, 'A3: Best-Fit Modell')
-
+    */
+    console.log("--- A3: Best-Fit Model ---");
+    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 100);
+        
     //
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
     //
 
     //Modell erstellen
+    /*
     const overfitModel = createModel();
     tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, bestModel);
 
     // Modell trainieren
-    await trainModel(overfitModel, noisyTrainData, noisyTestData, 1000, 'A4: Over-Fit Modell')
+    await trainModel(overfitModel, noisyTrainData, noisyTestData, 500, 'A4: Over-Fit Modell')
+    */
+    console.log("--- A4: Over-Fit Model ---");
+    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 300);
 
     //
     // Visualisierung
@@ -282,6 +294,41 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
     console.log(`Training für ${tabName} beendet.`);
     return history;
 }
+
+
+//
+// Modell laden oder (falls nicht vorhanden) neu trainieren und speichern
+//
+async function getOrTrainModel(modelName, trainData, testData, epochs) {
+    const savePath = `localstorage://${modelName}`;
+    
+    try {
+        // 1. Versuch: Modell aus dem LocalStorage laden
+        console.log(`Versuche ${modelName} zu laden...`);
+        const model = await tf.loadLayersModel(savePath);
+        
+        // Geladene Modelle müssen neu kompiliert werden, um den Loss zu berechnen
+        const optimizer = tf.train.adam(0.01);
+        model.compile({ optimizer: optimizer, loss: 'meanSquaredError' });
+        
+        console.log(`${modelName} erfolgreich geladen!`);
+        return model;
+        
+    } catch (error) {
+        // 2. Wenn das Laden fehlschlägt (z.B. beim ersten Start), wird neu trainiert
+        console.log(`${modelName} nicht gefunden. Erstelle und trainiere neu...`);
+        
+        const model = createModel();
+        await trainModel(model, trainData, testData, epochs, modelName);
+        
+        // Nach dem Training: Modell für das nächste Mal speichern
+        await model.save(savePath);
+        console.log(`${modelName} wurde erfolgreich gespeichert unter ${savePath}`);
+        
+        return model;
+    }
+}
+
 
 
 //
