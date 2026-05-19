@@ -46,7 +46,7 @@ async function main() {
     await trainModel(cleanModel, trainData, testData, 150, 'A2: Erstes Modell');
 
     //
-    // A3: Zweites Modell mit verrauschten Daten trainieren
+    // A3: Zweites Modell mit verrauschten Daten trainieren (Best-Fit)
     //
 
     //Modell erstellen
@@ -56,7 +56,18 @@ async function main() {
     // Modell trainieren
     await trainModel(bestModel, noisyTrainData, noisyTestData, 100, 'A3: Best-Fit Modell')
 
+    //
+    // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
+    //
 
+    //Modell erstellen
+    const overfitModel = createModel();
+    tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, bestModel);
+
+    // Modell trainieren
+    await trainModel(overfitModel, noisyTrainData, noisyTestData, 500, 'A4: Over-Fit Modell')
+
+    
 
 }
 
@@ -210,7 +221,7 @@ function createModel() {
 // Modell trainieren
 //
 async function trainModel(model, trainData, testData, epochs, tabName = 'Training') {
-    console.log("Starte Training für ${tabName}...");
+    console.log(`Starte Training für ${tabName}...`);
     
     const trainTensors = convertToTensor(trainData);
     const testTensors = convertToTensor(testData);
@@ -234,7 +245,7 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
     testTensors.inputs.dispose();
     testTensors.labels.dispose();
 
-    console.log("Training für ${tabName} beendet.");
+    console.log(`Training für ${tabName} beendet.`);
     return history;
 }
 
