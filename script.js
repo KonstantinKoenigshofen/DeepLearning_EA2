@@ -77,7 +77,7 @@ async function main() {
     await trainModel(overfitModel, noisyTrainData, noisyTestData, 500, 'A4: Over-Fit Modell')
     */
     console.log("--- A4: Over-Fit Model ---");
-    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 300);
+    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 500);
 
     //
     // Visualisierung
