@@ -65,7 +65,7 @@ async function main() {
     tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, bestModel);
 
     // Modell trainieren
-    await trainModel(overfitModel, noisyTrainData, noisyTestData, 500, 'A4: Over-Fit Modell')
+    await trainModel(overfitModel, noisyTrainData, noisyTestData, 1000, 'A4: Over-Fit Modell')
 
     
 
