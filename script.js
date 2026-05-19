@@ -303,6 +303,7 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
 //
 async function getOrTrainModel(modelName, trainData, testData, epochs) {
     const savePath = `localstorage://${modelName}`;
+    const historyKey = `history_${modelName}`;
     
     try {
         // 1. Versuch: Modell aus dem LocalStorage laden
