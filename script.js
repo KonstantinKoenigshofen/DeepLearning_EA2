@@ -43,7 +43,19 @@ async function main() {
     tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, cleanModel);
 
     // Model trainieren
-    await trainModel(cleanModel, trainData, testData, 150);
+    await trainModel(cleanModel, trainData, testData, 150, 'A2: Erstes Modell');
+
+    //
+    // A3: Zweites Modell mit verrauschten Daten trainieren
+    //
+
+    //Modell erstellen
+    const bestModel = createModel();
+    tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, bestModel);
+
+    // Modell trainieren
+    await trainModel(bestModel, noisyTrainData, noisyTestData, 100, 'A3: Best-Fit Modell')
+
 
 
 }
@@ -197,8 +209,8 @@ function createModel() {
 //
 // Modell trainieren
 //
-async function trainModel(model, trainData, testData, epochs) {
-    console.log("Starte Training...");
+async function trainModel(model, trainData, testData, epochs, tabName = 'Training') {
+    console.log("Starte Training für ${tabName}...");
     
     const trainTensors = convertToTensor(trainData);
     const testTensors = convertToTensor(testData);
@@ -222,7 +234,7 @@ async function trainModel(model, trainData, testData, epochs) {
     testTensors.inputs.dispose();
     testTensors.labels.dispose();
 
-    console.log("Training beendet.");
+    console.log("Training für ${tabName} beendet.");
     return history;
 }
 
