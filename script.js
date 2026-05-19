@@ -308,6 +308,14 @@ async function getOrTrainModel(modelName, trainData, testData, epochs) {
         // 1. Versuch: Modell aus dem LocalStorage laden
         console.log(`Versuche ${modelName} zu laden...`);
         const model = await tf.loadLayersModel(savePath);
+
+        // NEU: History laden und im Visor anzeigen
+        const savedHistoryStr = localStorage.getItem(historyKey);
+        if (savedHistoryStr) {
+            const savedHistory = JSON.parse(savedHistoryStr);
+            // Wir zeichnen den Graphen neu im Visor
+            renderSavedHistory(savedHistory, `Geladen: ${modelName}`);
+        }
         
         // Geladene Modelle müssen neu kompiliert werden, um den Loss zu berechnen
         const optimizer = tf.train.adam(0.01);
