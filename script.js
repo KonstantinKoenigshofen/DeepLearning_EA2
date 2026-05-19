@@ -299,6 +299,8 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
 //
 // Modell laden oder (falls nicht vorhanden) neu trainieren und speichern
 //
+// Um ie Modelle zu löschen: Entwicklertool -> Application -> Local Storage -> rechtsclick auf den link der Seite und Clear
+//
 async function getOrTrainModel(modelName, trainData, testData, epochs) {
     const savePath = `localstorage://${modelName}`;
     
@@ -319,15 +321,43 @@ async function getOrTrainModel(modelName, trainData, testData, epochs) {
         console.log(`${modelName} nicht gefunden. Erstelle und trainiere neu...`);
         
         const model = createModel();
-        await trainModel(model, trainData, testData, epochs, modelName);
+        const history = await trainModel(model, trainData, testData, epochs, modelName);
         
         // Nach dem Training: Modell für das nächste Mal speichern
         await model.save(savePath);
-        console.log(`${modelName} wurde erfolgreich gespeichert unter ${savePath}`);
+
+        localStorage.setItem(historyKey, JSON.stringify(history.history));
+
+        console.log(`${modelName} und History wurde erfolgreich gespeichert unter ${savePath}`);
         
         return model;
     }
 }
+
+//
+// Zeichnet den Trainingsverlauf aus gespeicherten Daten im TF Visor neu
+//
+function renderSavedHistory(historyData, tabName) {
+    // Wir wandeln die reinen Zahlen-Arrays in das Format [{x: epoche, y: loss}] um
+    const lossValues = historyData.loss.map((val, index) => ({ x: index, y: val }));
+    const valLossValues = historyData.val_loss.map((val, index) => ({ x: index, y: val }));
+
+    // Wir definieren, wo der Graph im Visor auftauchen soll
+    const surface = { name: 'Trainingsverlauf', tab: tabName };
+
+    // Wir zeichnen das Liniendiagramm manuell
+    tfvis.render.linechart(
+        surface,
+        { values: [lossValues, valLossValues], series: ['loss', 'val_loss'] },
+        {
+            xLabel: 'Epoche',
+            yLabel: 'Loss (MSE)',
+            height: 200
+        }
+    );
+}
+
+
 
 
 
