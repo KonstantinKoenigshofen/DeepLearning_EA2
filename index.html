@@ -18,6 +18,56 @@
 
 <h1>EA2: Regression mit FFNN <p class="author">von Konstantin Königshofen</p></h1>
 
+<div class="grid-container">
+  <!-- R1: Nur Datensätze -->
+  <div class="chart-cell">
+    <h3>R1: Unverrauschte Daten</h3>
+    <canvas id="chartR1_left"></canvas>
+  </div>
+  <div class="chart-cell">
+    <h3>R1: Verrauschte Daten</h3>
+    <canvas id="chartR1_right"></canvas>
+  </div>
+
+  <!-- R2: Clean Model -->
+  <div class="chart-cell">
+    <h3>R2: Clean Model (Trainingsdaten)</h3>
+    <canvas id="chartR2_left"></canvas>
+    <p class="loss-text" id="lossR2_left"></p>
+  </div>
+  <div class="chart-cell">
+    <h3>R2: Clean Model (Testdaten)</h3>
+    <canvas id="chartR2_right"></canvas>
+    <p class="loss-text" id="lossR2_right"></p>
+  </div>
+
+  <!-- R3: Best-Fit Model -->
+  <div class="chart-cell">
+    <h3>R3: Best-Fit Model (Trainingsdaten)</h3>
+    <canvas id="chartR3_left"></canvas>
+    <p class="loss-text" id="lossR3_left"></p>
+  </div>
+  <div class="chart-cell">
+    <h3>R3: Best-Fit Model (Testdaten)</h3>
+    <canvas id="chartR3_right"></canvas>
+    <p class="loss-text" id="lossR3_right"></p>
+  </div>
+
+  <!-- R4: Over-Fit Model -->
+  <div class="chart-cell">
+    <h3>R4: Over-Fit Model (Trainingsdaten)</h3>
+    <canvas id="chartR4_left"></canvas>
+    <p class="loss-text" id="lossR4_left"></p>
+  </div>
+  <div class="chart-cell">
+    <h3>R4: Over-Fit Model (Testdaten)</h3>
+    <canvas id="chartR4_right"></canvas>
+    <p class="loss-text" id="lossR4_right"></p>
+  </div>
+</div>
+
+
+
 
 <script src="script.js"></script>
 

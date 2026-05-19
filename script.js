@@ -67,7 +67,41 @@ async function main() {
     // Modell trainieren
     await trainModel(overfitModel, noisyTrainData, noisyTestData, 1000, 'A4: Over-Fit Modell')
 
-    
+    //
+    // Visualisierung
+    //
+    console.log("Starte Visualisierung...");
+
+    // R1: Nur die Datensätze visualisieren (ohne Vorhersagen)
+    drawChart('chartR1_left', 'Daten ohne Rauschen', trainData, testData);
+    drawChart('chartR1_right', 'Daten mit Rauschen', noisyTrainData, noisyTestData);
+
+    // Hilfsfunktion, um Zeilen R2 bis R4 kompakt zu zeichnen
+    function renderRow(model, dataTrain, dataTest, idLeft, idRight) {
+        const resTrain = getPredictionsAndLoss(model, dataTrain);
+        const resTest = getPredictionsAndLoss(model, dataTest);
+
+        // Wir zeichnen die Vorhersage (Linie) über die entsprechenden Daten (Punkte)
+        // Beim Trainings-Chart lassen wir die Testdaten leer ([]) und umgekehrt
+        drawChart(idLeft, 'Auf Trainingsdaten', resTrain.sortedData, [], resTrain.predPoints);
+        document.getElementById(`loss${idLeft.replace('chart', '')}`).innerText = `MSE: ${resTrain.loss.toFixed(5)}`;
+
+        drawChart(idRight, 'Auf Testdaten', [], resTest.sortedData, resTest.predPoints);
+        document.getElementById(`loss${idRight.replace('chart', '')}`).innerText = `MSE: ${resTest.loss.toFixed(5)}`;
+    }
+
+    // R2: Clean Model auf unverrauschten Daten
+    renderRow(cleanModel, trainData, testData, 'chartR2_left', 'chartR2_right');
+
+    // R3: Best-Fit Model auf verrauschten Daten
+    renderRow(bestModel, noisyTrainData, noisyTestData, 'chartR3_left', 'chartR3_right');
+
+    // R4: Over-Fit Model auf verrauschten Daten
+    renderRow(overfitModel, noisyTrainData, noisyTestData, 'chartR4_left', 'chartR4_right');
+
+    console.log("Visualisierung abgeschlossen!");
+
+
 
 }
 
@@ -250,6 +284,90 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
 }
 
 
+//
+// Vorhersagen generieren und MSE berechnen
+//
+function getPredictionsAndLoss(model, data) {
+    // Daten nach x-Werten sortieren, damit wir später eine durchgehende Linie zeichnen können
+    const sortedData = [...data].sort((a, b) => a.x - b.x);
+    
+    return tf.tidy(() => {
+        const inputs = sortedData.map(d => d.x);
+        const labels = sortedData.map(d => d.y);
+        
+        const inputTensor = tf.tensor2d(inputs, [inputs.length, 1]);
+        const labelTensor = tf.tensor2d(labels, [labels.length, 1]);
+        
+        // Modell lässt Vorhersage treffen
+        const predictions = model.predict(inputTensor);
+        const predValues = predictions.dataSync(); // Tensor in JS-Array umwandeln
+        
+        // Loss (MSE) manuell berechnen für die Anzeige
+        let loss = 0;
+        for (let i = 0; i < labels.length; i++) {
+            loss += Math.pow(labels[i] - predValues[i], 2);
+        }
+        loss = loss / labels.length;
+        
+        // Vorhersagen in das Format für Chart.js bringen [{x, y}]
+        const predPoints = inputs.map((xVal, i) => ({
+            x: xVal,
+            y: predValues[i]
+        }));
+        
+        return { sortedData, predPoints, loss };
+    });
+}
+
+
+//
+// Diagramm zeichnen mit Chart.js
+//
+function drawChart(canvasId, title, trainData, testData, predData = null) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    
+    const datasets = [
+        {
+            label: 'Trainingsdaten',
+            data: trainData,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)', // Blau
+            type: 'scatter'
+        },
+        {
+            label: 'Testdaten',
+            data: testData,
+            backgroundColor: 'rgba(255, 99, 132, 0.6)', // Rot
+            type: 'scatter'
+        }
+    ];
+
+    // Wenn Vorhersagen übergeben wurden, fügen wir sie als Linie hinzu
+    if (predData) {
+        datasets.push({
+            label: 'Modell Vorhersage',
+            data: predData,
+            borderColor: 'rgba(75, 192, 192, 1)', // Grün
+            borderWidth: 2,
+            type: 'line',
+            fill: false,
+            pointRadius: 0 // Versteckt die einzelnen Punkte auf der Linie
+        });
+    }
+
+    new Chart(ctx, {
+        type: 'scatter',
+        data: { datasets: datasets },
+        options: {
+            responsive: true,
+            plugins: {
+                title: { display: true, text: title }
+            },
+            scales: {
+                x: { type: 'linear', position: 'bottom', min: -2, max: 2 }
+            }
+        }
+    });
+}
 
 
 
