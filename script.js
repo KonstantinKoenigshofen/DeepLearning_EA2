@@ -39,9 +39,9 @@ async function main() {
     //
 
     // Modell erstellen
-    /*
+    ///*
     console.log("--- A2: Clean Model ---");
-    const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 80);
+    const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 120);
 
     //
     // A3: Zweites Modell mit verrauschten Daten trainieren (Best-Fit)
@@ -49,7 +49,7 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A3: Best-Fit Model ---");
-    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 80);
+    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 100);
         
     //
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
@@ -57,10 +57,11 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A4: Over-Fit Model ---");
-    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 300);
-    */
+    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 700);
+    //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
+    /*
     //
     // A2: Erstes Modell trainieren
     //
@@ -75,7 +76,7 @@ async function main() {
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
     //
     const overfitModel = await loadPreTrainedModel('overfitModel');
-
+    //*/
 
     //
     // Visualisierung
