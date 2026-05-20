@@ -39,7 +39,7 @@ async function main() {
     //
 
     // Modell erstellen
-    ///*
+    /*
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 100);
 
@@ -61,7 +61,7 @@ async function main() {
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
-    /*
+    ///*
     //
     // A2: Erstes Modell trainieren
     //
@@ -112,7 +112,7 @@ async function main() {
 
     console.log("Visualisierung abgeschlossen!");
 
-    await downloadModels(cleanModel, bestModel, overfitModel);
+    //await downloadModels(cleanModel, bestModel, overfitModel);
 
 
 
