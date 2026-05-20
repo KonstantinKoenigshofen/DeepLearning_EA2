@@ -237,20 +237,21 @@ function createModel() {
     model.add(tf.layers.dense({
         inputShape: [1], 
         units: 100, 
-        activation: 'relu'
+        activation: 'tanh'
     }));
 
     // 2. Hidden Layer
     model.add(tf.layers.dense({
         units: 100,
-        activation: 'relu'
+        activation: 'tanh'
     }));
 
      // 3. Hidden Layer
+     /*
     model.add(tf.layers.dense({
         units: 100,
         activation: 'relu'
-    }));
+    }));*/
 
     // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
     model.add(tf.layers.dense({
