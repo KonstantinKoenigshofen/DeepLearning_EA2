@@ -41,7 +41,7 @@ async function main() {
     // Modell erstellen
     ///*
     console.log("--- A2: Clean Model ---");
-    const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 150);
+    const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 120);
 
     //
     // A3: Zweites Modell mit verrauschten Daten trainieren (Best-Fit)
@@ -49,7 +49,7 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A3: Best-Fit Model ---");
-    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 150);
+    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 120);
         
     //
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
@@ -249,7 +249,7 @@ function createModel() {
 
      // 3. Hidden Layer
     model.add(tf.layers.dense({
-        units: 500,
+        units: 200,
         activation: 'relu'
     }));
 
