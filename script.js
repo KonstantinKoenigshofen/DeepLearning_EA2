@@ -41,7 +41,7 @@ async function main() {
     // Modell erstellen
     ///*
     console.log("--- A2: Clean Model ---");
-    const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 100);
+    const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 200);
 
     //
     // A3: Zweites Modell mit verrauschten Daten trainieren (Best-Fit)
