@@ -113,6 +113,8 @@ async function main() {
 
     console.log("Visualisierung abgeschlossen!");
 
+    downloadModels();
+
 
 
 }
@@ -460,6 +462,22 @@ function drawChart(canvasId, title, trainData, testData, predData = null) {
         }
     });
 }
+
+// Temporärer Code, um die fertigen Modelle herunterzuladen!
+// Führe das aus, wenn du mit dem Training zufrieden bist.
+async function downloadModels() {
+    console.log("Starte Download der Modelle...");
+    
+    // Wir gehen davon aus, dass cleanModel, bestModel und overfitModel existieren
+    await cleanModel.save('downloads://cleanModel');
+    await bestModel.save('downloads://bestFitModel');
+    await overfitModel.save('downloads://overfitModel');
+    
+    console.log("Downloads abgeschlossen!");
+}
+
+// Aufruf der Funktion (nachdem die Modelle trainiert wurden)
+// downloadModelsForProfessor(); // Entferne die Kommentarstriche (//) für einen Durchlauf
 
 
 
