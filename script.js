@@ -249,7 +249,7 @@ function createModel() {
 
      // 3. Hidden Layer
     model.add(tf.layers.dense({
-        units: 100,
+        units: 500,
         activation: 'relu'
     }));
 
