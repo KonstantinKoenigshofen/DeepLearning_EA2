@@ -62,7 +62,7 @@ async function main() {
     await trainModel(bestModel, noisyTrainData, noisyTestData, 100, 'A3: Best-Fit Modell')
     */
     console.log("--- A3: Best-Fit Model ---");
-    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 75);
+    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 100);
         
     //
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
@@ -259,8 +259,7 @@ function createModel() {
     }));
 
     // Modell kompilieren mit Optimizer und Loss-Funktion
-    //const optimizer = tf.train.adam(0.01);
-    const optimizer = tf.train.sgd(0.01);
+    const optimizer = tf.train.adam(0.01);
     model.compile({
         optimizer: optimizer,
         loss: 'meanSquaredError'
