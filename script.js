@@ -237,13 +237,13 @@ function createModel() {
     model.add(tf.layers.dense({
         inputShape: [1], 
         units: 100, 
-        activation: 'tanh'
+        activation: 'leakyRelu'
     }));
 
     // 2. Hidden Layer
     model.add(tf.layers.dense({
         units: 100,
-        activation: 'tanh'
+        activation: 'leakyRelu'
     }));
 
      // 3. Hidden Layer
