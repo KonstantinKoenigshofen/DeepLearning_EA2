@@ -40,12 +40,6 @@ async function main() {
 
     // Modell erstellen
     /*
-    const cleanModel = createModel();
-    tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, cleanModel);
-
-    // Model trainieren
-    await trainModel(cleanModel, trainData, testData, 150, 'A2: Erstes Modell');
-    */
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 80);
 
@@ -54,13 +48,6 @@ async function main() {
     //
 
     //Modell erstellen
-    /*
-    const bestModel = createModel();
-    tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, bestModel);
-
-    // Modell trainieren
-    await trainModel(bestModel, noisyTrainData, noisyTestData, 100, 'A3: Best-Fit Modell')
-    */
     console.log("--- A3: Best-Fit Model ---");
     const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 80);
         
@@ -69,15 +56,26 @@ async function main() {
     //
 
     //Modell erstellen
-    /*
-    const overfitModel = createModel();
-    tfvis.show.modelSummary({name: 'Modell Architektur', tab:'Modell'}, bestModel);
-
-    // Modell trainieren
-    await trainModel(overfitModel, noisyTrainData, noisyTestData, 500, 'A4: Over-Fit Modell')
-    */
     console.log("--- A4: Over-Fit Model ---");
     const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 300);
+    */
+
+    // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
+    //
+    // A2: Erstes Modell trainieren
+    //
+    const cleanModel = await loadPreTrainedModel('cleanModel');
+
+    //
+    // A3: Zweites Modell mit verrauschten Daten trainieren (Best-Fit)
+    //
+    const bestModel = await loadPreTrainedModel('bestFitModel');
+
+    //
+    // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
+    //
+    const overfitModel = await loadPreTrainedModel('overfitModel');
+
 
     //
     // Visualisierung
@@ -113,7 +111,7 @@ async function main() {
 
     console.log("Visualisierung abgeschlossen!");
 
-    downloadModels(cleanModel, bestModel, overfitModel);
+    await downloadModels(cleanModel, bestModel, overfitModel);
 
 
 
@@ -476,8 +474,30 @@ async function downloadModels(cleanModel, bestModel, overfitModel) {
     console.log("Downloads abgeschlossen!");
 }
 
-// Aufruf der Funktion (nachdem die Modelle trainiert wurden)
-// downloadModelsForProfessor(); // Entferne die Kommentarstriche (//) für einen Durchlauf
+//
+// Vor-trainiertes Modell vom Web-Server laden
+//
+async function loadPreTrainedModel(modelName) {
+    // Der Pfad weist nun auf den relativen 'models' Ordner auf dem Server
+    const modelUrl = `./models/${modelName}.json`;
+    
+    try {
+        console.log(`Lade ${modelName} vom Server...`);
+        // tf.loadLayersModel funktioniert auch mit relativen URLs (HTTP)
+        const model = await tf.loadLayersModel(modelUrl);
+        
+        // Modell kompilieren, damit wir später den Loss berechnen können
+        const optimizer = tf.train.adam(0.01);
+        model.compile({ optimizer: optimizer, loss: 'meanSquaredError' });
+        
+        console.log(`${modelName} erfolgreich geladen!`);
+        return model;
+    } catch (error) {
+        console.error(`Fehler beim Laden von ${modelName}:`, error);
+        alert(`Das Modell ${modelName} konnte nicht geladen werden. Bitte überprüfe die Pfade.`);
+        return null;
+    }
+}
 
 
 
