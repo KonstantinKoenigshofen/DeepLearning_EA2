@@ -246,6 +246,12 @@ function createModel() {
         activation: 'relu'
     }));
 
+     // 3. Hidden Layer
+    model.add(tf.layers.dense({
+        units: 100,
+        activation: 'relu'
+    }));
+
     // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
     model.add(tf.layers.dense({
         units: 1, 
