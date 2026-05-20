@@ -62,7 +62,7 @@ async function main() {
     await trainModel(bestModel, noisyTrainData, noisyTestData, 100, 'A3: Best-Fit Modell')
     */
     console.log("--- A3: Best-Fit Model ---");
-    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 80);
+    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 75);
         
     //
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
