@@ -113,7 +113,7 @@ async function main() {
 
     console.log("Visualisierung abgeschlossen!");
 
-    downloadModels();
+    downloadModels(cleanModel, bestModel, overfitModel);
 
 
 
@@ -465,7 +465,7 @@ function drawChart(canvasId, title, trainData, testData, predData = null) {
 
 // Temporärer Code, um die fertigen Modelle herunterzuladen!
 // Führe das aus, wenn du mit dem Training zufrieden bist.
-async function downloadModels() {
+async function downloadModels(cleanModel, bestModel, overfitModel) {
     console.log("Starte Download der Modelle...");
     
     // Wir gehen davon aus, dass cleanModel, bestModel und overfitModel existieren
