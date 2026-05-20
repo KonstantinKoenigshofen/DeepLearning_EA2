@@ -112,7 +112,7 @@ async function main() {
 
     console.log("Visualisierung abgeschlossen!");
 
-    await downloadModels(cleanModel, bestModel, overfitModel);
+    //await downloadModels(cleanModel, bestModel, overfitModel);
 
 
 
