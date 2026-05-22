@@ -70,8 +70,14 @@
 <!-- DISKUSSION -->
 <div class="section">
   <h2>Diskussion</h2>
-  <p>Das Clean-Model und Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert. 
-    Das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16.</p>
+  <p>Die Modellarchitektur bestand aus Hidden Layern mit jeweils 100 Units, da die Funktion nicht allzu
+    komplex ist (eindimensional) und somit das Modell nicht allzu komplex sein muss.
+    Als Aktivierungsfunktion wurde ReLu verwendet, da tanh und elu zu einem höheren loss-Wert führten.
+    Ein weiters 
+    Es gab jeweils 50 Trainingsdaten und Testdaten und die Lernrate wurde auf 0.01 gesetzt. 
+    Das Clean-Model und Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert, 
+    das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16. Durch die geringere Batch-Size und höhere Epochenanzahl
+    hat sich das Modell mehr an das Rauschen der </p>
 
 
 </div>
