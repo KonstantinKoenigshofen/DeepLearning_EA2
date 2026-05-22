@@ -39,7 +39,7 @@ async function main() {
     //
 
     // Modell erstellen
-    /*
+    ///*
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 80);
 
@@ -57,11 +57,11 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A4: Over-Fit Model ---");
-    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 1000, 16);
+    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 1000, 4);
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
-    ///*
+    /*
     //
     // A2: Erstes Modell trainieren
     //
