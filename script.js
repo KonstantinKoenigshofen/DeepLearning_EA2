@@ -39,7 +39,7 @@ async function main() {
     //
 
     // Modell erstellen
-    /*
+    ///*
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 100);
 
@@ -61,7 +61,7 @@ async function main() {
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
-    ///*
+    /*
     //
     // A2: Erstes Modell trainieren
     //
@@ -159,22 +159,29 @@ function loadData() {
 //
 // Daten aufteilen
 //
-function splitData(data) {
-    // Kopie erstellen, damit Original erhalten bleibt
+function splitData(data, splitRatio = 0.7) {
+    // 1. Kopie erstellen, damit das Original-Array unverändert bleibt
     const shuffled = [...data];
 
-    // Mischen (Fisher-Yates), damit das Modell nicht einseitig lernt
-    for (let i = shuffled.length -1; i > 0; i--) {
+    // 2. Daten mischen (Fisher-Yates-Algorithmus)
+    // Das verhindert, dass das Modell Muster in der Reihenfolge lernt.
+    for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; 
     }
 
-    const splitIndex = Math.floor(shuffled.length / 2);
+    // 3. Den Index für die Trennung berechnen
+    // Beispiel: Bei 100 Datenpunkten und splitRatio 0.7 ergibt das 70.
+    const splitIndex = Math.floor(shuffled.length * splitRatio);
 
-    const trainData = shuffled.slice(0,splitIndex);
+    // 4. Array an dem berechneten Index in zwei Teile zerschneiden
+    // slice(0, splitIndex) nimmt die ersten 70 Elemente
+    const trainData = shuffled.slice(0, splitIndex); 
+    
+    // slice(splitIndex) nimmt den gesamten Rest (die restlichen 30 Elemente)
     const testData = shuffled.slice(splitIndex);
 
-    return {trainData, testData};
+    return { trainData, testData };
 }
 
 //
@@ -248,10 +255,11 @@ function createModel() {
     }));
 
      // 3. Hidden Layer
+     /*
     model.add(tf.layers.dense({
         units: 200,
         activation: 'relu'
-    }));
+    }));*/
 
     // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
     model.add(tf.layers.dense({
