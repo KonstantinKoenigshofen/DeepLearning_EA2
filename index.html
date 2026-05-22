@@ -77,13 +77,15 @@
     gleichmäßig repräsentiert ist. 
     Das Clean-Model und Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert, 
     das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16, damit dass Modell das Rauschen auswendig lernt und overfittet.
+    Bei dem Clean-Model und Best-Fit-Model war der val_loss und loss zum Ende des Trainings ungefähr gleich, während bei dem Overfit-Model 
+    der val_loss höher war als der loss.
     Bei dem Modell, welches auf den rauschfreien Daten trainiert wurde (cleanModel), tritt kein Overfitting auf, da die Testdaten unverändert aus 
     der vorgegebenen Funktion stammen und das Modell ja anhand dieser Funktion trainiert wurde. 
     Die MSE-Werte der Trainings- und Testdaten beim Best-Fit-Model und Over-Fit-Model unterscheiden sich je nach dem verrauschten Datensatz. 
-    Bei einigen Datensätzen ist der MSE-Wert der Trainingsdaten größer als der der Testdaten und andersherum. Dies könnte daran liegen, dass 
-    in den beiden Datensätzen die Punkte nicht gleichmäßig verteilt sind und somit z.B. bei dem Over-Fit-Model der MSE-Wert der Testdaten trotzdem
-    größer ist als der MSE-Wert der Trainingsdaten. 
-    
+    Bei einigen Datensätzen ist der MSE-Wert der Trainingsdaten größer als der der Testdaten und andersherum.
+    Dies könnte daran liegen, dass in den beiden Datensätzen die Punkte nicht gleichmäßig verteilt sind und somit z.B. bei dem Over-Fit-Model 
+    der MSE-Wert der Testdaten trotzdem größer ist als der MSE-Wert der Trainingsdaten. 
+    Das Overfit-Model weißt allerdings bei jedem neu verrauschtem Datensatz deutlich höhere MSE-Werte auf als das Best-Fit-Model.
   </p>
 
 
