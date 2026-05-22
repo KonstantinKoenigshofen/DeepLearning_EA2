@@ -49,7 +49,7 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A3: Best-Fit Model ---");
-    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 80);
+    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 80, 32);
         
     //
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
@@ -57,7 +57,7 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A4: Over-Fit Model ---");
-    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 300);
+    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 2000, 4);
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
@@ -281,7 +281,7 @@ function createModel() {
 //
 // Modell trainieren
 //
-async function trainModel(model, trainData, testData, epochs, tabName = 'Training') {
+async function trainModel(model, trainData, testData, epochs, tabName = 'Training', customBatchSize = 32) {
     console.log(`Starte Training für ${tabName}...`);
     
     const trainTensors = convertToTensor(trainData);
@@ -289,7 +289,7 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
 
     const history = await model.fit(trainTensors.inputs, trainTensors.labels, {
         epochs: epochs,
-        batchSize: 32,
+        batchSize: customBatchSize,
         // Wir übergeben die Testdaten hier nur, um den Loss im Visor zu beobachten.
         // WICHTIG: Sie werden NICHT zur Optimierung des Modells genutzt.
         validationData: [testTensors.inputs, testTensors.labels],
@@ -316,7 +316,7 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
 //
 // Um ie Modelle zu löschen: Entwicklertool -> Application -> Local Storage -> rechtsclick auf den link der Seite und Clear
 //
-async function getOrTrainModel(modelName, trainData, testData, epochs) {
+async function getOrTrainModel(modelName, trainData, testData, epochs, customBatchSize = 32) {
     const savePath = `localstorage://${modelName}`;
     const historyKey = `history_${modelName}`;
     
@@ -345,7 +345,7 @@ async function getOrTrainModel(modelName, trainData, testData, epochs) {
         console.log(`${modelName} nicht gefunden. Erstelle und trainiere neu...`);
         
         const model = createModel();
-        const history = await trainModel(model, trainData, testData, epochs, modelName);
+        const history = await trainModel(model, trainData, testData, epochs, modelName, customBatchSize);
         
         // Nach dem Training: Modell für das nächste Mal speichern
         await model.save(savePath);
