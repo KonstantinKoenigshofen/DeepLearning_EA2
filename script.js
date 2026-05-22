@@ -159,7 +159,7 @@ function loadData() {
 //
 // Daten aufteilen
 //
-function splitData(data, splitRatio = 0.7) {
+function splitData(data, splitRatio = 0.5) {
     // 1. Kopie erstellen, damit das Original-Array unverändert bleibt
     const shuffled = [...data];
 
