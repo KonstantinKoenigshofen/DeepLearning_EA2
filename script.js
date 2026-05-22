@@ -3,6 +3,7 @@ async function main() {
     // A1: Daten generieren
     //
 
+    /*
     // Date laden
     let data = loadData();
     console.log("Daten geladen")
@@ -12,8 +13,13 @@ async function main() {
         data = generateData(100);
         saveData(data);
     }
+        */
 
+    const data = generateData(100);
+
+    console.log("Neue Daten generiert:");
     console.table(data);
+
 
     // Daten aufteilen
     const {trainData, testData} = splitData(data);
@@ -57,7 +63,7 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A4: Over-Fit Model ---");
-    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 1000, 4);
+    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 1000, 16);
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
