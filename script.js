@@ -49,7 +49,7 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A3: Best-Fit Model ---");
-    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 80);
+    const bestModel = await getOrTrainModel('bestFitModel', noisyTrainData, noisyTestData, 100);
         
     //
     // A4: Zweites Modell mit verrauschten Daten trainieren (Over-Fit)
