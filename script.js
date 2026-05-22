@@ -45,7 +45,7 @@ async function main() {
     //
 
     // Modell erstellen
-    /*
+    ///*
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 80);
 
@@ -63,11 +63,11 @@ async function main() {
 
     //Modell erstellen
     console.log("--- A4: Over-Fit Model ---");
-    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 1000, 8);
+    const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 1000, 16);
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
-    ///*
+    /*
     //
     // A2: Erstes Modell trainieren
     //
@@ -256,16 +256,16 @@ function createModel() {
 
     // 2. Hidden Layer
     model.add(tf.layers.dense({
-        units: 100,
+        units: 250,
         activation: 'relu'
     }));
 
      // 3. Hidden Layer
-     /*
+     ///*
     model.add(tf.layers.dense({
-        units: 200,
+        units: 500,
         activation: 'relu'
-    }));*/
+    }));//*/
 
     // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
     model.add(tf.layers.dense({
