@@ -73,10 +73,13 @@
   <p>Die Modellarchitektur bestand aus Hidden Layern mit jeweils 100 Units, da die Funktion nicht allzu
     komplex ist (eindimensional) und somit das Modell nicht allzu komplex sein muss.
     Als Aktivierungsfunktion wurde ReLu verwendet, da tanh und elu zu einem höheren loss-Wert führten.
-    Ein weiters 
-    Es gab jeweils 50 Trainingsdaten und Testdaten und die Lernrate wurde auf 0.01 gesetzt. 
+    Der Datensatz wurde in 50 Trainingsdaten und 50 Testdaten aufgeteilt, damit möglichst das gesamte Intervall [-2, +2] bei beiden Datensätzen
+    gleichmäßig repräsentiert ist. 
     Das Clean-Model und Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert, 
-    das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16, damit dass Modell das Rauschen auswendig lernt und overfittet.</p>
+    das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16, damit dass Modell das Rauschen auswendig lernt und overfittet.
+    Bei dem Modell, welches auf den rauschfreien Daten trainiert wurde (cleanModel), tritt kein Overfitting auf, da die Testdaten unverändert aus 
+    der vorgegebenen Funktion stammen und das Modell ja anhand dieser Funktion trainiert wurde. 
+  </p>
 
 
 </div>
