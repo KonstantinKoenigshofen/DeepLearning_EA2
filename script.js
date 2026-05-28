@@ -297,6 +297,11 @@ function createModel() {
         activation: 'sigmoid'
     }));//*/
 
+    model.add(tf.layers.dense({
+        units: 500,
+        activation: 'relu'
+    })); 
+
     // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
     model.add(tf.layers.dense({
         units: 1, 
