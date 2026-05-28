@@ -4,17 +4,17 @@ async function main() {
     //
 
     /*
-    // Date laden
-    let data = loadData();
-    console.log("Daten geladen")
-    // Falls noch nicht vorhanden, generieren
-    if (!data) {
-        console.log("Generiere neue Daten")
-        data = generateData(100);
-        saveData(data);
-    }
-        */
+    // Da die Funktion async ist, nutzen wir await
+    const loadedData = await loadPreTrainedData();
 
+    // Entpacken der geladenen Arrays
+    const trainData = loadedData.trainData;
+    const testData = loadedData.testData;
+    const noisyTrainData = loadedData.noisyTrainData;
+    const noisyTestData = loadedData.noisyTestData;
+    //*/
+
+    ///*
     const data = generateData(100);
 
     console.log("Neue Daten generiert:");
@@ -28,7 +28,7 @@ async function main() {
     // Daten verrauschen
     const noisyTrainData = addNoise(trainData);
     const noisyTestData = addNoise(testData);
-
+    //*/
 
     console.log("Trainingsdaten: ");
     console.table(trainData);
@@ -45,7 +45,7 @@ async function main() {
     //
 
     // Modell erstellen
-    /*
+    ///*
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 80);
 
@@ -67,7 +67,7 @@ async function main() {
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
-    ///*
+    /*
     //
     // A2: Erstes Modell trainieren
     //
@@ -146,21 +146,50 @@ function generateData(n) {
     return data;
 }
 
+
 //
-// Daten speichern
+// Hilfsfunktion: Datensatz einmalig als Datei herunterladen
 //
-function saveData(data) {
-    localStorage.setItem("dataset", JSON.stringify(data));
+function downloadDataset(trainData, testData, noisyTrainData, noisyTestData) {
+    console.log("Lade Datensatz herunter...");
+    
+    // Alle 4 Arrays in ein großes Objekt packen
+    const exportObject = {
+        trainData: trainData,
+        testData: testData,
+        noisyTrainData: noisyTrainData,
+        noisyTestData: noisyTestData
+    };
+
+    // In einen Text-String (JSON) umwandeln und als Download anbieten
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObject));
+    const dlNode = document.createElement('a');
+    dlNode.setAttribute("href", dataStr);
+    dlNode.setAttribute("download", "dataset.json");
+    document.body.appendChild(dlNode);
+    dlNode.click();
+    dlNode.remove();
 }
 
 
 //
-// Daten laden
+// Vor-generierten Datensatz vom Server laden
 //
-function loadData() {
-    const data = localStorage.getItem("dataset");
-    return data ? JSON.parse(data) : null;
+async function loadPreTrainedData() {
+    try {
+        console.log("Lade festen Datensatz vom Server...");
+        // Passe den Pfad an, je nachdem wo deine dataset.json liegt
+        const response = await fetch('./models/dataset.json'); 
+        const data = await response.json();
+        console.log("Datensatz erfolgreich geladen!");
+        return data;
+    } catch (error) {
+        console.error("Fehler beim Laden des Datensatzes:", error);
+        alert("Datensatz konnte nicht geladen werden. Bitte Pfad prüfen.");
+        return null;
+    }
 }
+
 
 //
 // Daten aufteilen
