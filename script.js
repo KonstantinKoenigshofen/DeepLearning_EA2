@@ -306,7 +306,7 @@ function createModel() {
     }));
 
     // Modell kompilieren mit Optimizer und Loss-Funktion
-    const optimizer = tf.train.adam(0.1);
+    const optimizer = tf.train.adam(0.001);
     model.compile({
         optimizer: optimizer,
         loss: 'meanSquaredError'
