@@ -291,16 +291,13 @@ function createModel() {
     }));
 
      // 3. Hidden Layer
-     ///*
+     /*
     model.add(tf.layers.dense({
         units: 200,
         activation: 'sigmoid'
     }));//*/
 
-    model.add(tf.layers.dense({
-        units: 500,
-        activation: 'relu'
-    })); 
+
 
     // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
     model.add(tf.layers.dense({
@@ -309,7 +306,7 @@ function createModel() {
     }));
 
     // Modell kompilieren mit Optimizer und Loss-Funktion
-    const optimizer = tf.train.adam(0.01);
+    const optimizer = tf.train.adam(0.1);
     model.compile({
         optimizer: optimizer,
         loss: 'meanSquaredError'

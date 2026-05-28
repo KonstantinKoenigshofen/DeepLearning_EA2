@@ -71,12 +71,15 @@
 <div class="section">
   <h2>Diskussion</h2>
   <p>Die Modellarchitektur bestand aus 2 Hidden Layern mit jeweils 100 Units, da die Funktion nicht allzu
-    komplex ist (eindimensional) und somit das Modell nicht allzu komplex sein muss.
-    Als Aktivierungsfunktion wurde ReLu verwendet, da tanh und elu zu einem höheren loss-Wert führten.
+    komplex ist (eindimensional) und somit das Modell nicht allzu komplex sein muss. 
+    Es wurde auch mit einem drittem/viertem Layer und der Aktivierungsfunktion "sigmoid" in einem von diesen Layer herumexperimentiert, 
+    wobei allerdings keine nennenswerte Veränderungen auftraten.
     Der Datensatz wurde in 50 Trainingsdaten und 50 Testdaten aufgeteilt, damit möglichst das gesamte Intervall [-2, +2] bei beiden Datensätzen
     gleichmäßig repräsentiert wird. 
     Das Clean-Model und das Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert, 
     das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16, damit dass Modell das Rauschen auswendig lernt und overfittet.
+    Allgemein ist bem Training aufgefallen, dass die Lernkurven immer unterschiedlich ausfielen, da bei jedem Lerndurchgang die Gewichte 
+    zufällig initialisiert wurden.
     Bei dem Modell, welches auf den rauschfreien Daten trainiert wurde (cleanModel), tritt kein Overfitting auf, da die Testdaten unverändert aus 
     der vorgegebenen Funktion stammen und das Modell ja anhand dieser Funktion trainiert wurde. 
     Bei dem Best-Fit-Model sind beide MSE-Werte etwas über dem künstlichen Rauschen von 0.05, wodurch sich sagen lässt, dass das Modell auf unbekannten Daten genauso
