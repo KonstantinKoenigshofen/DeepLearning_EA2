@@ -118,7 +118,8 @@ async function main() {
 
     console.log("Visualisierung abgeschlossen!");
 
-    //await downloadModels(cleanModel, bestModel, overfitModel);
+    await downloadDataset(trainData, testData, noisyTrainData, noisyTestData);
+    await downloadModels(cleanModel, bestModel, overfitModel);
 
 
 
