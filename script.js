@@ -3,7 +3,7 @@ async function main() {
     // A1: Daten generieren
     //
 
-    /*
+    ///*
     // Da die Funktion async ist, nutzen wir await
     const loadedData = await loadPreTrainedData();
 
@@ -14,7 +14,7 @@ async function main() {
     const noisyTestData = loadedData.noisyTestData;
     //*/
 
-    ///*
+    /*
     const data = generateData(100);
 
     console.log("Neue Daten generiert:");
@@ -45,7 +45,7 @@ async function main() {
     //
 
     // Modell erstellen
-    ///*
+    /*
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 80);
 
@@ -67,7 +67,7 @@ async function main() {
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
-    /*
+    ///*
     //
     // A2: Erstes Modell trainieren
     //
@@ -118,8 +118,8 @@ async function main() {
 
     console.log("Visualisierung abgeschlossen!");
 
-    await downloadDataset(trainData, testData, noisyTrainData, noisyTestData);
-    await downloadModels(cleanModel, bestModel, overfitModel);
+    //await downloadDataset(trainData, testData, noisyTrainData, noisyTestData);
+    //await downloadModels(cleanModel, bestModel, overfitModel);
 
 
 
@@ -180,7 +180,7 @@ async function loadPreTrainedData() {
     try {
         console.log("Lade festen Datensatz vom Server...");
         // Passe den Pfad an, je nachdem wo deine dataset.json liegt
-        const response = await fetch('./models/dataset.json'); 
+        const response = await fetch('./dataset.json'); 
         const data = await response.json();
         console.log("Datensatz erfolgreich geladen!");
         return data;
