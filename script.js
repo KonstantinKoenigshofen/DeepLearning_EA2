@@ -45,7 +45,7 @@ async function main() {
     //
 
     // Modell erstellen
-    /*
+    ///*
     console.log("--- A2: Clean Model ---");
     const cleanModel = await getOrTrainModel('cleanModel', trainData, testData, 80);
 
@@ -67,7 +67,7 @@ async function main() {
     //*/
 
     // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
-    ///*
+    /*
     //
     // A2: Erstes Modell trainieren
     //
@@ -291,11 +291,11 @@ function createModel() {
     }));
 
      // 3. Hidden Layer
-     /*
+     ///*
     model.add(tf.layers.dense({
-        units: 200,
+        units: 100,
         activation: 'relu'
-    }));*/
+    }));//*/
 
     // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
     model.add(tf.layers.dense({

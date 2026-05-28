@@ -70,22 +70,19 @@
 <!-- DISKUSSION -->
 <div class="section">
   <h2>Diskussion</h2>
-  <p>Die Modellarchitektur bestand aus Hidden Layern mit jeweils 100 Units, da die Funktion nicht allzu
+  <p>Die Modellarchitektur bestand aus 2 Hidden Layern mit jeweils 100 Units, da die Funktion nicht allzu
     komplex ist (eindimensional) und somit das Modell nicht allzu komplex sein muss.
     Als Aktivierungsfunktion wurde ReLu verwendet, da tanh und elu zu einem höheren loss-Wert führten.
     Der Datensatz wurde in 50 Trainingsdaten und 50 Testdaten aufgeteilt, damit möglichst das gesamte Intervall [-2, +2] bei beiden Datensätzen
-    gleichmäßig repräsentiert ist. 
-    Das Clean-Model und Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert, 
+    gleichmäßig repräsentiert wird. 
+    Das Clean-Model und das Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert, 
     das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16, damit dass Modell das Rauschen auswendig lernt und overfittet.
-    Bei dem Clean-Model und Best-Fit-Model war der val_loss und loss zum Ende des Trainings ungefähr gleich, während bei dem Overfit-Model 
-    der val_loss höher war als der loss.
     Bei dem Modell, welches auf den rauschfreien Daten trainiert wurde (cleanModel), tritt kein Overfitting auf, da die Testdaten unverändert aus 
     der vorgegebenen Funktion stammen und das Modell ja anhand dieser Funktion trainiert wurde. 
-    Die MSE-Werte der Trainings- und Testdaten beim Best-Fit-Model und Over-Fit-Model unterscheiden sich je nach dem verrauschten Datensatz. 
-    Bei einigen Datensätzen ist der MSE-Wert der Trainingsdaten größer als der der Testdaten und andersherum.
-    Dies könnte daran liegen, dass in den beiden Datensätzen die Punkte nicht gleichmäßig verteilt sind und somit z.B. bei dem Over-Fit-Model 
-    der MSE-Wert der Testdaten trotzdem größer ist als der MSE-Wert der Trainingsdaten. 
-    Das Overfit-Model weißt allerdings bei jedem neu verrauschtem Datensatz deutlich höhere MSE-Werte auf als das Best-Fit-Model.
+    Bei dem Best-Fit-Model sind beide MSE-Werte etwas über dem künstlichen Rauschen von 0.05, wodurch sich sagen lässt, dass das Modell auf unbekannten Daten genauso
+    gut ist wie auf den Trainingsdaten.
+    Bei dem Overfit-Model ist der MSE-Wert auf den Testdaten höher als auf den Trainingsdaten. Das Modell hat sich zu sehr an die Trainingsdaten 
+    angepasst und ist somit schlechter geworden.
   </p>
 
 
