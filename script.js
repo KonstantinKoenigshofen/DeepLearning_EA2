@@ -14,6 +14,7 @@ async function main() {
     const noisyTestData = loadedData.noisyTestData;
     //*/
 
+    // Daten generieren
     /*
     const data = generateData(100);
 
@@ -66,7 +67,7 @@ async function main() {
     const overfitModel = await getOrTrainModel('overfitModel', noisyTrainData, noisyTestData, 1000, 16);
     //*/
 
-    // HIER NEUE IMPLEMENTIERUNG!!!!!!!!!!!!!!!!!!!!!!
+    // Laden von vor-trainierten Modellen
     ///*
     //
     // A2: Erstes Modell trainieren
@@ -89,7 +90,7 @@ async function main() {
     //
     console.log("Starte Visualisierung...");
 
-    // R1: Nur die Datensätze visualisieren (ohne Vorhersagen)
+    // R1: Nur die Datensätze visualisieren 
     drawChart('chartR1_left', 'Daten ohne Rauschen', trainData, testData);
     drawChart('chartR1_right', 'Daten mit Rauschen', noisyTrainData, noisyTestData);
 
@@ -98,8 +99,7 @@ async function main() {
         const resTrain = getPredictionsAndLoss(model, dataTrain);
         const resTest = getPredictionsAndLoss(model, dataTest);
 
-        // Wir zeichnen die Vorhersage (Linie) über die entsprechenden Daten (Punkte)
-        // Beim Trainings-Chart lassen wir die Testdaten leer ([]) und umgekehrt
+        // Zeichnen der Linie über die entsprechenden Punkte
         drawChart(idLeft, 'Auf Trainingsdaten', resTrain.sortedData, [], resTrain.predPoints);
         document.getElementById(`loss${idLeft.replace('chart', '')}`).innerText = `MSE: ${resTrain.loss.toFixed(5)}`;
 
@@ -154,7 +154,7 @@ function generateData(n) {
 function downloadDataset(trainData, testData, noisyTrainData, noisyTestData) {
     console.log("Lade Datensatz herunter...");
     
-    // Alle 4 Arrays in ein großes Objekt packen
+    
     const exportObject = {
         trainData: trainData,
         testData: testData,
@@ -162,7 +162,7 @@ function downloadDataset(trainData, testData, noisyTrainData, noisyTestData) {
         noisyTestData: noisyTestData
     };
 
-    // In einen Text-String (JSON) umwandeln und als Download anbieten
+    // In JSON umwandeln und downloaden
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportObject));
     const dlNode = document.createElement('a');
     dlNode.setAttribute("href", dataStr);
@@ -178,8 +178,7 @@ function downloadDataset(trainData, testData, noisyTrainData, noisyTestData) {
 //
 async function loadPreTrainedData() {
     try {
-        console.log("Lade festen Datensatz vom Server...");
-        // Passe den Pfad an, je nachdem wo deine dataset.json liegt
+        console.log("Lade Datensatz vom Server...");
         const response = await fetch('./dataset.json'); 
         const data = await response.json();
         console.log("Datensatz erfolgreich geladen!");
@@ -299,7 +298,7 @@ function createModel() {
 
 
 
-    // Output Layer (Aktivierungsfunktion 'linear' ist der Standard, kann weggelassen oder explizit genannt werden)
+    // Output Layer
     model.add(tf.layers.dense({
         units: 1, 
         activation: 'linear'
@@ -328,8 +327,7 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
     const history = await model.fit(trainTensors.inputs, trainTensors.labels, {
         epochs: epochs,
         batchSize: customBatchSize,
-        // Wir übergeben die Testdaten hier nur, um den Loss im Visor zu beobachten.
-        // WICHTIG: Sie werden NICHT zur Optimierung des Modells genutzt.
+        // Testdaten übergebn, um den Loss im Visor zu beobachten
         validationData: [testTensors.inputs, testTensors.labels],
         callbacks: tfvis.show.fitCallbacks(
             { name: 'Training Performance', tab: 'Training' },
@@ -350,7 +348,7 @@ async function trainModel(model, trainData, testData, epochs, tabName = 'Trainin
 
 
 //
-// Modell laden oder (falls nicht vorhanden) neu trainieren und speichern
+// Modell laden oder (falls nicht vorhanden) neu trainieren und speichern (Über localStorage; für Entwicklung)
 //
 // Um ie Modelle zu löschen: Entwicklertool -> Application -> Local Storage -> rechtsclick auf den link der Seite und Clear
 //
@@ -359,15 +357,14 @@ async function getOrTrainModel(modelName, trainData, testData, epochs, customBat
     const historyKey = `history_${modelName}`;
     
     try {
-        // 1. Versuch: Modell aus dem LocalStorage laden
+        // Modell aus dem LocalStorage laden
         console.log(`Versuche ${modelName} zu laden...`);
         const model = await tf.loadLayersModel(savePath);
 
-        // NEU: History laden und im Visor anzeigen
+        // History laden und im Visor anzeigen
         const savedHistoryStr = localStorage.getItem(historyKey);
         if (savedHistoryStr) {
             const savedHistory = JSON.parse(savedHistoryStr);
-            // Wir zeichnen den Graphen neu im Visor
             renderSavedHistory(savedHistory, `Geladen: ${modelName}`);
         }
         
@@ -379,13 +376,13 @@ async function getOrTrainModel(modelName, trainData, testData, epochs, customBat
         return model;
         
     } catch (error) {
-        // 2. Wenn das Laden fehlschlägt (z.B. beim ersten Start), wird neu trainiert
+        // Wenn das Laden fehlschlägt, wird neu trainiert
         console.log(`${modelName} nicht gefunden. Erstelle und trainiere neu...`);
         
         const model = createModel();
         const history = await trainModel(model, trainData, testData, epochs, modelName, customBatchSize);
         
-        // Nach dem Training: Modell für das nächste Mal speichern
+        // Modell speichern
         await model.save(savePath);
 
         localStorage.setItem(historyKey, JSON.stringify(history.history));
@@ -400,14 +397,14 @@ async function getOrTrainModel(modelName, trainData, testData, epochs, customBat
 // Zeichnet den Trainingsverlauf aus gespeicherten Daten im TF Visor neu
 //
 function renderSavedHistory(historyData, tabName) {
-    // Wir wandeln die reinen Zahlen-Arrays in das Format [{x: epoche, y: loss}] um
+    // Zahlen-Arrays in das Format [{x: epoche, y: loss}] umwandeln
     const lossValues = historyData.loss.map((val, index) => ({ x: index, y: val }));
     const valLossValues = historyData.val_loss.map((val, index) => ({ x: index, y: val }));
 
-    // Wir definieren, wo der Graph im Visor auftauchen soll
+    // Definition, wo der Graph im Visor auftauchen soll
     const surface = { name: 'Trainingsverlauf', tab: tabName };
 
-    // Wir zeichnen das Liniendiagramm manuell
+    // Liniendiagramm zeichnen
     tfvis.render.linechart(
         surface,
         { values: [lossValues, valLossValues], series: ['loss', 'val_loss'] },
@@ -427,7 +424,7 @@ function renderSavedHistory(historyData, tabName) {
 // Vorhersagen generieren und MSE berechnen
 //
 function getPredictionsAndLoss(model, data) {
-    // Daten nach x-Werten sortieren, damit wir später eine durchgehende Linie zeichnen können
+    // Daten nach x-Werten sortieren, damit später eine durchgehende Linie gezeichnet werden kann
     const sortedData = [...data].sort((a, b) => a.x - b.x);
     
     return tf.tidy(() => {
@@ -480,7 +477,7 @@ function drawChart(canvasId, title, trainData, testData, predData = null) {
         }
     ];
 
-    // Wenn Vorhersagen übergeben wurden, fügen wir sie als Linie hinzu
+    // Wenn Vorhersagen übergeben wurden, werden sie als Linie hinzugefügt
     if (predData) {
         datasets.push({
             label: 'Modell Vorhersage',
@@ -508,12 +505,10 @@ function drawChart(canvasId, title, trainData, testData, predData = null) {
     });
 }
 
-// Temporärer Code, um die fertigen Modelle herunterzuladen!
-// Führe das aus, wenn du mit dem Training zufrieden bist.
+// Funktion fürs herunterladen der Modelle
 async function downloadModels(cleanModel, bestModel, overfitModel) {
     console.log("Starte Download der Modelle...");
     
-    // Wir gehen davon aus, dass cleanModel, bestModel und overfitModel existieren
     await cleanModel.save('downloads://cleanModel');
     await bestModel.save('downloads://bestFitModel');
     await overfitModel.save('downloads://overfitModel');
@@ -522,18 +517,18 @@ async function downloadModels(cleanModel, bestModel, overfitModel) {
 }
 
 //
-// Vor-trainiertes Modell vom Web-Server laden
+// Vor-trainiertes Modell vom Web-Server(Github) laden
 //
 async function loadPreTrainedModel(modelName) {
-    // Der Pfad weist nun auf den relativen 'models' Ordner auf dem Server
+    // Der Pfad weist auf den relativen 'models' Ordner auf dem Server
     const modelUrl = `./models/${modelName}.json`;
     
     try {
         console.log(`Lade ${modelName} vom Server...`);
-        // tf.loadLayersModel funktioniert auch mit relativen URLs (HTTP)
+        
         const model = await tf.loadLayersModel(modelUrl);
         
-        // Modell kompilieren, damit wir später den Loss berechnen können
+        // Modell kompilieren, damit später der Loss berechnet werden kann
         const optimizer = tf.train.adam(0.01);
         model.compile({ optimizer: optimizer, loss: 'meanSquaredError' });
         
