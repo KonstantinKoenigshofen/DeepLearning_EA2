@@ -94,8 +94,8 @@
     </p>
     <p>
       Allgemein ist bem Training aufgefallen, dass die Lernkurven immer unterschiedlich ausfielen, da bei jedem Lerndurchgang die Gewichte 
-      zufällig initialisiert wurden. Auffallend war hierbei, das in einigen Fällen die MSE-Werte bei dem Best-Fit-Model deutlich höher waren,
-      als bei dem Overfit-Model.
+      zufällig initialisiert wurden. Auffallend war hierbei, dass in einigen Fällen die MSE-Werte bei dem Best-Fit-Model deutlich höher waren,
+      als bei dem Overfit-Model und vereinzelt kein Overfitting beim Overfit-Model zu beobachten war.
     </p>
     <p>
       Bei dem Modell, welches auf den rauschfreien Daten trainiert wurde (cleanModel), tritt kein Overfitting auf, da die Testdaten unverändert aus 
@@ -131,6 +131,9 @@
   Testdaten aufzuteilen und herunterzuladen. Mithilfe von TensorFlow.js wurden dann Funktionen für das erstellen, trainieren und herunterladen
   bzw. laden der Modelle erstellt. Anschließend wurde mit verschiedenen Modellarchitekturen und Parametern experimentiert, 
   bis geeignete Ergebnisse gefunden wurden. Der Datensatz und die Modelle wurden gespeichert und in die Projektdatei mit einbezogen.</p>
+  <p>Die Modelle wurden auf unterschiedlich verrauschten Datensätzen getestet (siehe Diskussion), allerdings werden auf dieser Seite nur 
+  der Datensatz mit den Ergebnisse der Modelle angezeigt, an dem die Unterschiede zwischen Overfit-Model und Best-Fit-Model am besten 
+  erkennbar waren.</p>
 </div>
 
 
