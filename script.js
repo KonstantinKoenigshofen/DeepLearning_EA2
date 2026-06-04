@@ -195,21 +195,21 @@ async function loadPreTrainedData() {
 // Daten aufteilen
 //
 function splitData(data, splitRatio = 0.5) {
-    // 1. Kopie erstellen, damit das Original-Array unverändert bleibt
+    // Kopie erstellen, damit das Original-Array unverändert bleibt
     const shuffled = [...data];
 
-    // 2. Daten mischen (Fisher-Yates-Algorithmus)
+    // Daten mischen (Fisher-Yates-Algorithmus)
     // Das verhindert, dass das Modell Muster in der Reihenfolge lernt.
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; 
     }
 
-    // 3. Den Index für die Trennung berechnen
+    // Den Index für die Trennung berechnen
     // Beispiel: Bei 100 Datenpunkten und splitRatio 0.7 ergibt das 70.
     const splitIndex = Math.floor(shuffled.length * splitRatio);
 
-    // 4. Array an dem berechneten Index in zwei Teile zerschneiden
+    // Array an dem berechneten Index in zwei Teile zerschneiden
     // slice(0, splitIndex) nimmt die ersten 70 Elemente
     const trainData = shuffled.slice(0, splitIndex); 
     
