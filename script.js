@@ -220,14 +220,14 @@ function splitData(data, splitRatio = 0.5) {
 }
 
 //
-// Daten verrauschen
+// Daten verrauschen (nur output y)
 //
 function addNoise(data, variance = 0.05) {
     const std = Math.sqrt(variance);
 
     return data.map(p => ({
         x: p.x,
-        y: p.y + gaussianRandom() * std
+        y: p.y + gaussianRandom() * std 
     }));
 }
 

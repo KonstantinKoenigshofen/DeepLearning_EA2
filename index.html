@@ -73,11 +73,11 @@
   <p>
     <p>
       Die Modellarchitektur bestand aus 2 Hidden Layern mit jeweils 100 Units, da die Funktion nicht allzu
-      komplex ist (eindimensional) und somit das Modell nicht allzu komplex sein muss. 
+      komplex ist (eindimensional) und die gewählte Architektur somit mehr als ausreichend ist. 
     </p>
 
     <p>
-      Es wurde auch mit einem drittem/viertem Layer und der Aktivierungsfunktion "sigmoid" in einem von diesen Layern herumexperimentiert, 
+      Es wurde auch mit einem dritten/vierten Layer und der Aktivierungsfunktion "sigmoid" in einem von diesen Layern herumexperimentiert, 
       wobei allerdings keine nennenswerte Veränderungen auftraten.
     </p>
     <p>
@@ -90,16 +90,16 @@
     </p>
     <p>
       Das Clean-Model und das Best-Fit-Model wurden beide über 80 Epochen mit einer Batch-Size von 32 trainiert, 
-      das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16, damit dass Modell das Rauschen auswendig lernt und overfittet.
+      das Overfit-Model hingegen über 1000 Epochen mit einer Batch-Size von 16, damit das Modell das Rauschen auswendig lernt und overfittet.
     </p>
     <p>
-      Allgemein ist bem Training aufgefallen, dass die Lernkurven immer unterschiedlich ausfielen, da bei jedem Lerndurchgang die Gewichte 
-      zufällig initialisiert wurden. Auffallend war hierbei, dass in einigen Fällen die MSE-Werte bei dem Best-Fit-Model deutlich höher waren,
+      Allgemein ist beim Training aufgefallen, dass die Lernkurven immer unterschiedlich ausfielen, da bei jedem Lerndurchgang die Gewichte 
+      zufällig initialisiert wurden. Auffallend war hierbei, dass in einigen Fällen beide MSE-Werte bei dem Best-Fit-Model deutlich höher waren
       als bei dem Overfit-Model und vereinzelt kein Overfitting beim Overfit-Model zu beobachten war.
     </p>
     <p>
       Bei dem Modell, welches auf den rauschfreien Daten trainiert wurde (cleanModel), tritt kein Overfitting auf, da die Testdaten unverändert aus 
-      der vorgegebenen Funktion stammen und das Modell ja anhand dieser Funktion trainiert wurde.     
+      der vorgegebenen Funktion stammen und das Modell anhand dieser Funktion trainiert wurde.     
     </p>
     <p>
       Bei dem Best-Fit-Model sind beide MSE-Werte etwas über dem künstlichen Rauschen von 0.05, wodurch sich sagen lässt, dass das Modell auf unbekannten Daten genauso
